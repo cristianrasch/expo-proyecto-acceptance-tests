@@ -7,7 +7,7 @@ When /^I register a new account$/ do
     fill_in "user_email", with: user_email
     fill_in "user_password", with: "please"
     fill_in "user_password_confirmation", with: "please"
-    click_on "Registrase"
+    click_on "Registrarse"
   end
 end
 
