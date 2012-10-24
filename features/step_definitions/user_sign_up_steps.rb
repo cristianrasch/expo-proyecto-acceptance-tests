@@ -4,7 +4,7 @@ end
 
 When /^I register a new account$/ do
   within("#user_new") do
-    fill_in "user_email", with: user_email
+    fill_in "user_email", with: Faker::Internet.email
     fill_in "user_password", with: "please"
     fill_in "user_password_confirmation", with: "please"
     click_on "Registrarse"
