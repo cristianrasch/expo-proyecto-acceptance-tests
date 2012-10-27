@@ -2,7 +2,7 @@ Given /^I am at the sign\-up page$/ do
   visit "/users/sign_up"
 end
 
-When /^I register a new account$/ do
+When /^When I sign up for an account$/ do
   within("#user_new") do
     fill_in "user_email", with: Faker::Internet.email
     fill_in "user_password", with: "please"
@@ -11,10 +11,6 @@ When /^I register a new account$/ do
   end
 end
 
-Then /^I should be signed in$/ do
+Then /^I should be automatically signed in$/ do
   find('li#current_session').should have_link("Salir")
-end
-
-def user_email
-  @user_email ||= "cucumber#{Time.now.to_i}@example.org"
 end

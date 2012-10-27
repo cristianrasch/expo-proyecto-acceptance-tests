@@ -5,5 +5,5 @@ Feature: User sign-up
 
   Scenario: User signs up for an account
     Given I am at the sign-up page
-    When I register a new account
-    Then I should be signed in
+    When I sign up for an account
+    Then I should be automatically signed in
