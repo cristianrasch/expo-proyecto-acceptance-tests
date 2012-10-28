@@ -54,6 +54,10 @@ When /^I visit the home page$/ do
   visit "/"
 end
 
+When /^I visit the login page$/ do
+  visit "/users/sign_in"
+end
+
 When /^I visit that project's page$/ do
   visit "/projects/qa-project"
   # visit "/expos/#{this_year}/projects"
