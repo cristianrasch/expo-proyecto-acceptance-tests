@@ -50,6 +50,10 @@ Given /^there is a project registered for that exposition$/ do
   # sign_out
 end
 
+When /^I visit the home page$/ do
+  visit "/"
+end
+
 When /^I visit that project's page$/ do
   visit "/projects/qa-project"
   # visit "/expos/#{this_year}/projects"
