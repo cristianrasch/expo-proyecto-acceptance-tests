@@ -2,7 +2,7 @@ Given /^I am at the sign\-up page$/ do
   visit "/users/sign_up"
 end
 
-When /^When I sign up for an account$/ do
+When /^I sign up for an account$/ do
   within("#user_new") do
     fill_in "user_email", with: Faker::Internet.email
     fill_in "user_password", with: "please"

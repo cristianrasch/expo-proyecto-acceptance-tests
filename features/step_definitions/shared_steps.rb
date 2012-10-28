@@ -17,12 +17,15 @@ Given /^An admin is logged in$/ do
 end
 
 Given /^There is at least one exposition$/ do
-  step "An admin account exists"
-  # step "An admin is logged in"
-  admin_visits "/expos/new"
-  select this_year, from: "date_year"
-  click_button "Guardar"
-  sign_out
+  visit "/expos/#{this_year}"
+  within ".title" do
+    page.should have_content("ExpoProyecto #{this_year}")
+  end
+  # step "An admin account exists"
+  # admin_visits "/expos/new"
+  # select this_year, from: "date_year"
+  # click_button "Guardar"
+  # sign_out
 end
 
 Given /^I have registered my project for this years exposition$/ do
@@ -40,27 +43,33 @@ Given /^I have registered my project for this years exposition$/ do
 end
 
 Given /^there is a project registered for that exposition$/ do
-  step "I have signed up for an account"
-  step "I have registered my project for this years exposition"
-  sign_out
+  visit "/expos/#{this_year}/projects"
+  page.should have_selector("table.projects tr td")
+  # step "I have signed up for an account"
+  # step "I have registered my project for this years exposition"
+  # sign_out
 end
 
-When /^I visit my project's page$/ do
-  visit "/expos/#{this_year}/projects"
-  within ".projects" do
-    click_link project_title
-  end
+When /^I visit that project's page$/ do
+  visit "/projects/qa-project"
+  # visit "/expos/#{this_year}/projects"
+  # within ".projects" do
+  #   click_link project_title
+  # end
 end
 
 Then /^I should see its title$/ do
   within ".title" do
-    page.should have_content(project_title)
+    page.should have_content(PR_TITLE)
   end
 end
 
 Then /^I should see its description$/ do
-  page.should have_content(project_description)
+  page.should have_content(PR_DESC)
 end
+
+PR_TITLE = "QA Project"
+PR_DESC = "Dummy test project"
 
 def this_year
   @year ||= Date.today.year.to_s
@@ -68,14 +77,6 @@ end
 
 def user_email
   @user_email ||= Faker::Internet.email
-end
-
-def project_title
-  @project_title ||= Faker::Lorem.sentence
-end
-
-def project_description
-  @project_description ||= Faker::Lorem.paragraph
 end
 
 def admin_visits(path)
