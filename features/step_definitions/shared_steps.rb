@@ -1,19 +1,19 @@
 # encoding: utf-8
 
 Given /^I have signed up for an account$/ do
-  sign_up_as user_email
+  sign_up user_email, "please"
 end
 
 Given /^I am logged in$/ do
   find('li#current_session').should have_link("Salir")
 end
 
-Given /^An admin account exists$/ do
-  sign_up_as admin_email
+Given /^that I have signed in$/ do
+  sign_in
 end
 
 Given /^An admin is logged in$/ do
-  sign_in_as admin_email
+  sign_in
 end
 
 Given /^There is at least one exposition$/ do
@@ -26,20 +26,6 @@ Given /^There is at least one exposition$/ do
   # select this_year, from: "date_year"
   # click_button "Guardar"
   # sign_out
-end
-
-Given /^I have registered my project for this years exposition$/ do
-  visit "/expos/#{this_year}/projects/new"
-  fill_in "project_title", with: project_title
-  select "Ingeniería informática", from: "project_faculty"
-  fill_in "project_subject", with: Faker::Lorem.sentence
-  select "Docentes", from: "project_group_type"
-  fill_in "project_contact", with: (0..1).map { Faker::Internet.email }.join(", ")
-  select "Demostración", from: "project_expo_mode"
-  fill_in "project_description", with: project_description
-  click_link "Add"
-  fill_in "Nombre", with: Faker::Name.name
-  click_button "Guardar"
 end
 
 Given /^there is a project registered for that exposition$/ do
@@ -76,8 +62,17 @@ Then /^I should see its description$/ do
   page.should have_content(PR_DESC)
 end
 
+Then /^a project with the title of "(.*?)" should exist$/ do |project_title|
+  visit "/expos/#{this_year}/projects"
+  within "table.projects" do
+    page.should have_link(project_title)
+  end
+end
+
 PR_TITLE = "QA Project"
 PR_DESC = "Dummy test project"
+ADMIN_EMAIL = "admin@example.com"
+ADMIN_PASSWD = "secret"
 
 def this_year
   @year ||= Date.today.year.to_s
@@ -93,7 +88,7 @@ def admin_visits(path)
   visit URI.join(uri.to_s, path).to_s
 end
 
-def sign_up_as(email, password = "please")
+def sign_up(email = ADMIN_EMAIL, password = ADMIN_PASSWD)
   visit "/users/sign_up"
   fill_in "user_email", with: email
   fill_in "user_password", with: password
@@ -101,15 +96,11 @@ def sign_up_as(email, password = "please")
   click_button "Registrarse"
 end
 
-def sign_in_as(email, password = "please")
+def sign_in(email = ADMIN_EMAIL, password = ADMIN_PASSWD)
   visit "/users/sign_in"
   fill_in "user_email", with: email
   fill_in "user_password", with: password
   click_button "Ingresar"
-end
-
-def admin_email
-  "root@example.com"
 end
 
 def sign_out
