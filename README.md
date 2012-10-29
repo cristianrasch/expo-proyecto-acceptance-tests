@@ -7,9 +7,11 @@ List of cucumber features
   3. Browse project pages.
   4. See a list of activities planned for the ongoing exposition.
 
+
 * Registered users may
   1. Log in to the application.
   2. Register new projects.
+
 
 * Admin users may
   1. Create expositions.
