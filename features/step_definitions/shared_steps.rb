@@ -12,7 +12,7 @@ Given /^that I have signed in$/ do
   sign_in
 end
 
-Given /^An admin is logged in$/ do
+Given /^that I have signed in as an administrator$/ do
   sign_in
 end
 
