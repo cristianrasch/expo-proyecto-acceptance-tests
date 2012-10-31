@@ -21,11 +21,6 @@ Given /^There is at least one exposition$/ do
   within ".title" do
     page.should have_content("ExpoProyecto #{this_year}")
   end
-  # step "An admin account exists"
-  # admin_visits "/expos/new"
-  # select this_year, from: "date_year"
-  # click_button "Guardar"
-  # sign_out
 end
 
 Given /^there is a project registered for that exposition$/ do
@@ -46,10 +41,6 @@ end
 
 When /^I visit that project's page$/ do
   visit "/projects/qa-project"
-  # visit "/expos/#{this_year}/projects"
-  # within ".projects" do
-  #   click_link project_title
-  # end
 end
 
 Then /^I should see its title$/ do
@@ -67,6 +58,10 @@ Then /^a project with the title of "(.*?)" should exist$/ do |project_title|
   within "table.projects" do
     page.should have_link(project_title)
   end
+end
+
+Then /^I should get back a file named "(.*?)"$/ do |filename|
+  page.response_headers['Content-Disposition'].should include("filename=\"#{filename}\"")
 end
 
 PR_TITLE = "QA Project"
